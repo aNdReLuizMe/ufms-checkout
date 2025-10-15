@@ -1,17 +1,25 @@
 services:
-  mysql:
+  mysql-db:
     image: mysql:8
     container_name: mysql-checkout
-    restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: 1
-      MYSQL_DATABASE: sql
-      MYSQL_USER: user
-      MYSQL_PASSWORD: 1
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - mysql-data:/var/lib/mysql
+      - ./database:/docker-entrypoint-initdb.d
+    restart: always
+    networks:
+      - mysql-network
 
 volumes:
-  mysql_data:
+  mysql-data:
+    driver: local
+
+networks:
+  mysql-network:
+    driver: bridge
