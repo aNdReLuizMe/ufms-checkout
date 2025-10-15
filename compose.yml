@@ -1,0 +1,17 @@
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql-checkout
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: 1
+      MYSQL_DATABASE: sql
+      MYSQL_USER: user
+      MYSQL_PASSWORD: 1
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
